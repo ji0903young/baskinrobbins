@@ -219,6 +219,12 @@
       left: 50%;
       top: 215px; /* 원하는 위치값으로 조정 */
       margin-left: -642px; /* width의 절반만큼 음수 margin */
+      z-index: 99999999998;
+    }
+    video{
+      width: 870px;
+      height: 480px;
+      cursor: pointer;
       z-index: 99999999999;
     }
     .video iframe {
@@ -318,7 +324,8 @@
             <div class="win"></div>
             <div class="truck_side"></div>
             <div class="video">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/Sn2Wg3O5KKk?si=ZlInEz1kstPPqZ4c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <video src="brand_video.mp4"></video>
+                <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/Sn2Wg3O5KKk?si=ZlInEz1kstPPqZ4c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
             </div>
         </section>
         
@@ -375,18 +382,24 @@
 
   });
 });
-        
-        $(function(){
-          $(".door").click(function(){
-            $(".modal").fadeIn(); // 모달 열기
-          });
-      
-          $(".modal-close").click(function(){
-            $(".modal").fadeOut(); // 모달 닫기
-          });
-        });
+    $(function(){
+  const video = $("video").get(0); // jQuery 객체 → DOM 요소로 변환
 
-        
+  $("video").on("click", function(){
+    if (video.ended) {
+      // 영상이 끝난 상태면 처음부터 다시 재생
+      video.currentTime = 0;
+      video.play();
+    } else if (video.paused) {
+      // 멈춘 상태면 재생
+      video.play();
+    } else {
+      // 재생 중이면 일시정지
+      video.pause();
+    }
+  });
+});
+
     </script>
 </body>
 </html>
